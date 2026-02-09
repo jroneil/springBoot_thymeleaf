@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- 
+        Call the layout fragment, passing:
+        - ~{::content} : reference to the local 'content' fragment defined below
+        - ${pageTitle} : the pageTitle model attribute from the controller
+    -->
+    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+
+        <!-- Local content fragment - this is what gets passed to the layout -->
+        <div th:fragment="content" class="roles-content">
+
+            <!-- Display the single RoleSummary object -->
+            <section class="card summary-card">
+                <h2>Role Summary</h2>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <span class="stat-value" th:text="${roleSummary.totalRoles}">0</span>
+                        <span class="stat-label">Total Roles</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" th:text="${roleSummary.totalPermissions}">0</span>
+                        <span class="stat-label">Total Permissions</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Display the list of roles using th:each -->
+            <section class="card roles-list-card">
+                <h2>All Roles</h2>
+                <table class="roles-table">
+                    <thead>
+                        <tr>
+                            <th>Role Name</th>
+                            <th>Description</th>
+                            <th>Permissions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="role : ${roles}">
+                            <td class="role-name" th:text="${role.name}">ROLE</td>
+                            <td th:text="${role.description}">Description</td>
+                            <td class="permission-count" th:text="${role.permissionCount}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </div>
+</body>
+
+</html>

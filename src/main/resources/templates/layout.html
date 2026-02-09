@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic page title -->
+    <title th:text="${pageTitle} + ' | ThymeleafDemo'">Page | ThymeleafDemo</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+    <!-- 
+        Layout Fragment Definition
+        Accepts two parameters:
+        - content: a fragment reference containing the page body
+        - pageTitle: a String for the page heading
+    -->
+    <div th:fragment="layout(content, pageTitle)" class="layout-wrapper">
+
+        <!-- Include Header Fragment -->
+        <div th:replace="~{fragments/header :: header}"></div>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Page Title as H1 -->
+            <h1 class="page-title" th:text="${pageTitle}">Page Title</h1>
+
+            <!-- Render the passed content fragment -->
+            <div class="content-container" th:replace="${content}">
+                <!-- Page content will be inserted here -->
+            </div>
+        </main>
+
+        <!-- Include Footer Fragment -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+</body>
+
+</html>

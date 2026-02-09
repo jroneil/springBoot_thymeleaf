@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- Header Fragment -->
+    <header th:fragment="header" class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">ThymeleafDemo</span>
+            </div>
+            <ul class="nav-links">
+                <li><a th:href="@{/}" class="nav-link">Home</a></li>
+                <li><a th:href="@{/roles}" class="nav-link">Roles</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>

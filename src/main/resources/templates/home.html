@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- 
+        Call the layout fragment, passing:
+        - ~{::content} : reference to the local 'content' fragment defined below
+        - ${pageTitle} : the pageTitle model attribute from the controller
+    -->
+    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+
+        <!-- Local content fragment - this is what gets passed to the layout -->
+        <div th:fragment="content" class="home-content">
+
+            <!-- Display the single UserProfile object -->
+            <section class="card user-card">
+                <h2>Current User</h2>
+                <div class="user-info">
+                    <div class="info-row">
+                        <span class="label">Username:</span>
+                        <span class="value" th:text="${currentUser.username}">username</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Email:</span>
+                        <span class="value" th:text="${currentUser.email}">email@example.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Department:</span>
+                        <span class="value" th:text="${currentUser.department}">Department</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Display the list of recent activities using th:each -->
+            <section class="card activities-card">
+                <h2>Recent Activities</h2>
+                <ul class="activity-list">
+                    <li th:each="activity : ${recentActivities}" th:text="${activity}" class="activity-item">
+                        Activity placeholder
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+    </div>
+</body>
+
+</html>

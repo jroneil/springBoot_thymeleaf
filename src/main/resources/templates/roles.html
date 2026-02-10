@@ -8,10 +8,22 @@
 <body>
     <!-- 
         Call the layout fragment, passing:
-        - ~{::content} : reference to the local 'content' fragment defined below
-        - ${pageTitle} : the pageTitle model attribute from the controller
+        - ~{::content}    : reference to the local 'content' fragment
+        - ${pageTitle}    : the page title from the controller
+        - ~{::head}       : reference to page-specific head content (optional)
     -->
-    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle}, ~{::head})}">
+
+        <!-- Optional: Page-specific head content -->
+        <th:block th:fragment="head">
+            <!-- Example: custom style only for this page -->
+            <style>
+                .role-name {
+                    border-left: 2px solid var(--color-accent);
+                    padding-left: 8px;
+                }
+            </style>
+        </th:block>
 
         <!-- Local content fragment - this is what gets passed to the layout -->
         <div th:fragment="content" class="roles-content">

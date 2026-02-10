@@ -12,8 +12,15 @@ This project demonstrates a professional, reusable layout pattern in Spring Boot
 ## Project Structure
 - `src/main/resources/templates/layout.html`: The master layout defining the fragment `layout(content, pageTitle)`.
 - `src/main/resources/templates/fragments/`: Contains `header.html` and `footer.html`.
+- `src/main/resources/templates/template.html`: A blank starter template for new pages.
 - `src/main/resources/templates/*.html`: Page templates (`home`, `roles`) that call the layout.
 - `src/main/resources/static/css/app.css`: The styling for the entire application.
+
+## Blank Page Template
+This project includes a **Blank Page Template** (`/new-page`) designed to be a starting point for additional pages. 
+- **Controller**: `TemplateController.java`
+- **Template**: `template.html`
+- **Usage**: Copy the controller method and the `template.html` file to quickly spin up new pages while maintaining the consistent layout and styling.
 
 ## Prerequisites
 - **Java 17+**
@@ -33,10 +40,13 @@ This project demonstrates a professional, reusable layout pattern in Spring Boot
 ## Implementation Details
 
 ### Reusable Layout Call
-Each page uses the following pattern to wrap its content in the global layout:
+Each page uses the following pattern to wrap its content and inject page-specific metadata:
 
 ```html
-<div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+<div th:replace="~{layout :: layout(~{::content}, ${pageTitle}, ~{::head})}">
+    <th:block th:fragment="head">
+        <!-- Page specific tags (styles/scripts) -->
+    </th:block>
     <div th:fragment="content">
         <!-- Page specific content here -->
     </div>
@@ -44,15 +54,16 @@ Each page uses the following pattern to wrap its content in the global layout:
 ```
 
 ### Layout Definition
-The `layout.html` file defines the shell:
+The `layout.html` file defines the shell and supports active link highlighting via the `activeModule` model attribute:
 
 ```html
-<div th:fragment="layout(content, pageTitle)">
+<div th:fragment="layout(content, pageTitle, extraStatic)">
+    <th:block th:replace="${extraStatic}"/>
     <div th:replace="~{fragments/header :: header}"></div>
-    <main>
-        <h1 th:text="${pageTitle}"></h1>
-        <div th:replace="${content}"></div>
-    </main>
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    ...
 </div>
 ```
+
+## Professional Enhancements Added
+- **Active Navigation**: Links in the header are automatically highlighted based on the `activeModule` attribute passed from the controller.
+- **Dynamic Head Injection**: Individual templates can now inject their own CSS or JS into the global layout's `<head>` section via a dedicated fragment.

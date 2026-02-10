@@ -15,6 +15,9 @@ public class RoleController {
         // Page title for the layout
         model.addAttribute("pageTitle", "Roles");
 
+        // Active navigation module
+        model.addAttribute("activeModule", "roles");
+
         // Single object: role summary stats
         RoleSummary summary = new RoleSummary(5, 23);
         model.addAttribute("roleSummary", summary);

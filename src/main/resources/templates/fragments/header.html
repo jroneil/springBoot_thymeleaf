@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
 </head>
+
 <body>
     <!-- Header Fragment -->
     <header th:fragment="header" class="header">
@@ -12,10 +14,13 @@
                 <span class="logo-text">ThymeleafDemo</span>
             </div>
             <ul class="nav-links">
-                <li><a th:href="@{/}" class="nav-link">Home</a></li>
-                <li><a th:href="@{/roles}" class="nav-link">Roles</a></li>
+                <li><a th:href="@{/}" th:classappend="${activeModule == 'home' ? 'active' : ''}"
+                        class="nav-link">Home</a></li>
+                <li><a th:href="@{/roles}" th:classappend="${activeModule == 'roles' ? 'active' : ''}"
+                        class="nav-link">Roles</a></li>
             </ul>
         </nav>
     </header>
 </body>
+
 </html>

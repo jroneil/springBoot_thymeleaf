@@ -15,22 +15,23 @@ public class HomeController {
         // Page title for the layout
         model.addAttribute("pageTitle", "Home");
 
+        // Active navigation module
+        model.addAttribute("activeModule", "home");
+
         // Single object: current user profile
         UserProfile currentUser = new UserProfile(
-            "jdoe",
-            "john.doe@example.com",
-            "Engineering"
-        );
+                "jdoe",
+                "john.doe@example.com",
+                "Engineering");
         model.addAttribute("currentUser", currentUser);
 
         // List of recent activities
         List<String> recentActivities = List.of(
-            "Logged in from New York, NY",
-            "Updated profile settings",
-            "Completed security training",
-            "Reviewed Q4 reports",
-            "Joined the DevOps team channel"
-        );
+                "Logged in from New York, NY",
+                "Updated profile settings",
+                "Completed security training",
+                "Reviewed Q4 reports",
+                "Joined the DevOps team channel");
         model.addAttribute("recentActivities", recentActivities);
 
         return "home";

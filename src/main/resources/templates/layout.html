@@ -12,11 +12,15 @@
 <body>
     <!-- 
         Layout Fragment Definition
-        Accepts two parameters:
+        Accepts three parameters:
         - content: a fragment reference containing the page body
         - pageTitle: a String for the page heading
+        - extraStatic: a fragment reference for page-specific head tags (scripts/styles)
     -->
-    <div th:fragment="layout(content, pageTitle)" class="layout-wrapper">
+    <div th:fragment="layout(content, pageTitle, extraStatic)" class="layout-wrapper">
+
+        <!-- Inject page-specific head content (if any) -->
+        <th:block th:replace="${extraStatic}" />
 
         <!-- Include Header Fragment -->
         <div th:replace="~{fragments/header :: header}"></div>

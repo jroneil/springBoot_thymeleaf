@@ -21,10 +21,17 @@ public class RoleController {
     }
 
     @GetMapping
-    public String list(Model model) {
+    public String list(@RequestParam(required = false) String search, Model model) {
         model.addAttribute("pageTitle", "Roles");
         model.addAttribute("activeModule", "roles");
-        model.addAttribute("roles", roleRepository.findAll());
+
+        if (search != null && !search.trim().isEmpty()) {
+            model.addAttribute("roles", roleRepository.findByNameContainingIgnoreCase(search));
+            model.addAttribute("search", search);
+        } else {
+            model.addAttribute("roles", roleRepository.findAll());
+        }
+
         return "roles";
     }
 

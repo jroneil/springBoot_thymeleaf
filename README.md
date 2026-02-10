@@ -92,3 +92,35 @@ The master `layout.html` then renders the injected page fragment using:
 ```html
 <div th:replace="${content}"></div>
 ```
+
+---
+
+## 🛠 Technical Gotchas: CSS Not Loading
+
+During development, we encountered a scenario where CSS styles did not render
+even though they were correctly linked in `layout.html`.
+
+### Root Cause
+When using fragment-based layouts, if the layout fragment only renders a `<div>`,
+the final HTML output depends on the *calling template* to provide the
+`<html>`, `<head>`, and `<body>` elements.
+
+In our case, the content pages (e.g. `home.html`) acted as the entry point but did
+not define their own `<head>`. As a result, the browser rendered a document
+without the `<link>` tags and font imports, causing styles to disappear.
+
+### Solution
+We adopted a **document-level layout fragment**.
+
+The `layout` fragment in `layout.html` now wraps the **entire HTML document**,
+including:
+
+- `<!DOCTYPE html>`
+- `<head>` (CSS, fonts, metadata)
+- `<body>`
+
+When a page calls:
+```html
+<div th:replace="~{layout :: layout(...)}"></div>
+The page is replaced by a complete, valid HTML document, ensuring that CSS and
+fonts are always present in the final output.

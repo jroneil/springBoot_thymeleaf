@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+        <div th:fragment="content">
+
+            <div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl border border-gray-700 shadow-2xl">
+                <h2 class="text-xl font-semibold text-gray-200 mb-6"
+                    style="border-left: 4px solid #6366f1; padding-left: 0.75rem;">
+                    About This Project
+                </h2>
+                <p class="text-gray-300" style="line-height: 1.8; margin-bottom: 1.25rem;">
+                    This is a <strong class="text-white">Spring Boot 3.5.0</strong> demo showcasing reusable
+                    <strong class="text-white">Thymeleaf fragment layouts</strong> without the Thymeleaf Layout Dialect.
+                    Every page uses the strict <code
+                        style="background:#334155; padding:0.15rem 0.5rem; border-radius:4px; color:#60a5fa; font-size:0.85em;">layout :: layout(content, pageTitle)</code>
+                    contract.
+                </p>
+                <p class="text-gray-300" style="line-height: 1.8; margin-bottom: 1.25rem;">
+                    The <strong class="text-white">Roles</strong> module demonstrates full CRUD operations backed by
+                    an <strong class="text-white">H2 in-memory database</strong>, Spring Data JPA, and Bean Validation
+                    with inline error messages.
+                </p>
+                <p class="text-gray-400 text-sm"
+                    style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #334155;">
+                    Built for learning &mdash; fork it, break it, make it yours.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

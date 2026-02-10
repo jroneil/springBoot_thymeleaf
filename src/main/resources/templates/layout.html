@@ -4,41 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Dynamic page title -->
-    <title th:text="${pageTitle} + ' | ThymeleafDemo'">Page | ThymeleafDemo</title>
-    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <title>CRUD Demo</title>
 </head>
 
 <body>
-    <!-- 
-        Layout Fragment Definition
-        Accepts three parameters:
-        - content: a fragment reference containing the page body
-        - pageTitle: a String for the page heading
-        - extraStatic: a fragment reference for page-specific head tags (scripts/styles)
+    <!--
+        Layout Fragment
+        Accepts: content (fragment), pageTitle (String)
+        Returns: full page including head, header, footer
     -->
-    <div th:fragment="layout(content, pageTitle, extraStatic)" class="layout-wrapper">
+    <th:block th:fragment="layout(content, pageTitle)">
+        <!DOCTYPE html>
+        <html>
 
-        <!-- Inject page-specific head content (if any) -->
-        <th:block th:replace="${extraStatic}" />
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title th:text="${pageTitle} + ' | CRUD Demo'">CRUD Demo</title>
+            <link rel="stylesheet" th:href="@{/css/app.css}">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+                rel="stylesheet">
+        </head>
 
-        <!-- Include Header Fragment -->
-        <div th:replace="~{fragments/header :: header}"></div>
+        <body>
+            <div class="min-h-screen flex flex-col">
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- Page Title as H1 -->
-            <h1 class="page-title" th:text="${pageTitle}">Page Title</h1>
+                <!-- Header -->
+                <header th:replace="~{fragments/header :: header}"></header>
 
-            <!-- Render the passed content fragment -->
-            <div class="content-container" th:replace="${content}">
-                <!-- Page content will be inserted here -->
+                <!-- Main Content -->
+                <main class="flex-grow container mx-auto px-4 py-8">
+                    <h1 class="text-3xl font-bold mb-8 text-white border-b border-gray-800 pb-4" th:text="${pageTitle}">
+                        Page Title</h1>
+
+                    <!-- Success Message -->
+                    <div th:if="${successMessage}"
+                        class="bg-green-900/50 border border-green-500 text-green-200 px-4 py-3 rounded-lg relative mb-6"
+                        role="alert">
+                        <span th:text="${successMessage}">Success!</span>
+                    </div>
+
+                    <!-- Inject Content -->
+                    <div th:replace="${content}"></div>
+                </main>
+
+                <!-- Footer -->
+                <footer th:replace="~{fragments/footer :: footer}"></footer>
             </div>
-        </main>
+        </body>
 
-        <!-- Include Footer Fragment -->
-        <div th:replace="~{fragments/footer :: footer}"></div>
-    </div>
+        </html>
+    </th:block>
 </body>
 
 </html>

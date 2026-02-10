@@ -10,14 +10,48 @@
     <header th:fragment="header" class="header">
         <nav class="nav-container">
             <div class="logo">
-                <span class="logo-icon">◆</span>
+                <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
                 <span class="logo-text">ThymeleafDemo</span>
             </div>
-            <ul class="nav-links">
-                <li><a th:href="@{/}" th:classappend="${activeModule == 'home' ? 'active' : ''}"
-                        class="nav-link">Home</a></li>
-                <li><a th:href="@{/roles}" th:classappend="${activeModule == 'roles' ? 'active' : ''}"
-                        class="nav-link">Roles</a></li>
+            <ul class="nav-tabs">
+                <li>
+                    <a th:href="@{/}" th:classappend="${activeModule == 'home' ? 'active' : ''}" class="nav-tab">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/roles}" th:classappend="${activeModule == 'roles' ? 'active' : ''}" class="nav-tab">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Roles
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/about}" th:classappend="${activeModule == 'about' ? 'active' : ''}" class="nav-tab">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        About
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>

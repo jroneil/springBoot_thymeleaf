@@ -1,53 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-</head>
-
 <body>
     <!-- 
         PAGE TEMPLATE
         Use this as a starting point for new pages.
-        
-        How it works:
-        - It calls 'layout.html' fragment 'layout'
-        - It passes the local 'content' fragment (~{::content})
-        - It passes the 'pageTitle' from the controller
-        - It passes the local 'head' fragment (~{::head})
     -->
-    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle}, ~{::head})}">
+    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+        <div th:fragment="content" class="space-y-6">
 
-        <!-- Optional: Page-specific head content (scripts, styles, etc.) -->
-        <th:block th:fragment="head">
-            <!-- Add <script> or <style> tags here -->
-        </th:block>
-
-        <!-- Define the specific content for this page here -->
-        <div th:fragment="content" class="template-content">
-
-            <section class="card">
-                <h2>Page Instructions</h2>
-                <div class="user-info">
-                    <p>To create a new page using this layout:</p>
-                    <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+            <section class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 text-gray-200 border-b border-gray-700 pb-2">Page Instructions
+                </h2>
+                <div class="text-gray-300 space-y-2">
+                    <p>To create a new page using this glassmorphic layout:</p>
+                    <ol class="list-decimal list-inside space-y-1 ml-4">
                         <li>Create a new controller method returning a template name.</li>
-                        <li>Add <code>pageTitle</code> to the model.</li>
-                        <li>Copy this HTML file and change the <code>div th:fragment="content"</code> area.</li>
+                        <li>Add <code>pageTitle</code> and <code>activeModule</code> to the model.</li>
+                        <li>Copy this HTML file and modify the <code>div th:fragment="content"</code> section.</li>
                     </ol>
                 </div>
             </section>
 
-            <!-- Example Section for Data -->
-            <section class="card" style="margin-top: 1.5rem;">
-                <h2>Your Data: <span th:text="${exampleObject.name}">Item Name</span></h2>
-                <p th:text="${exampleObject.description}">Description goes here.</p>
+            <section class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg" th:if="${exampleObject}">
+                <h2 class="text-xl font-semibold mb-4 text-gray-200 border-b border-gray-700 pb-2">
+                    Data Example: <span th:text="${exampleObject.name}" class="text-blue-400">Item Name</span>
+                </h2>
+                <p class="text-gray-300 mb-4" th:text="${exampleObject.description}">Description goes here.</p>
 
-                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--color-text-muted);">Related Features:
-                </h3>
-                <ul class="activity-list">
-                    <li th:each="item : ${exampleList}" th:text="${item}" class="activity-item">
-                        Item
+                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Related Items</h3>
+                <ul class="space-y-2">
+                    <li th:each="item : ${exampleList}"
+                        class="bg-gray-900/50 p-3 rounded-lg border-l-4 border-primary text-gray-300 text-sm">
+                        <span th:text="${item}">Item</span>
                     </li>
                 </ul>
             </section>

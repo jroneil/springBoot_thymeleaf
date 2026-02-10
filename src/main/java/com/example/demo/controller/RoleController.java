@@ -1,42 +1,68 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Role;
+import com.example.demo.repository.RoleRepository;
+
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/roles")
 public class RoleController {
 
-    @GetMapping("/roles")
-    public String roles(Model model) {
-        // Page title for the layout
+    private final RoleRepository roleRepository;
+
+    public RoleController(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+    @GetMapping
+    public String list(Model model) {
         model.addAttribute("pageTitle", "Roles");
-
-        // Active navigation module
         model.addAttribute("activeModule", "roles");
-
-        // Single object: role summary stats
-        RoleSummary summary = new RoleSummary(5, 23);
-        model.addAttribute("roleSummary", summary);
-
-        // List of roles
-        List<Role> roles = List.of(
-                new Role("ADMIN", "Full system access with all permissions", 15),
-                new Role("EDITOR", "Can create and modify content", 8),
-                new Role("VIEWER", "Read-only access to resources", 3),
-                new Role("AUDITOR", "Can view audit logs and reports", 5),
-                new Role("GUEST", "Limited temporary access", 2));
-        model.addAttribute("roles", roles);
-
+        model.addAttribute("roles", roleRepository.findAll());
         return "roles";
     }
 
-    /**
-     * Simple record for role summary statistics.
-     */
-    public record RoleSummary(int totalRoles, int totalPermissions) {
+    @GetMapping("/new")
+    public String createForm(Model model) {
+        model.addAttribute("pageTitle", "Create Role");
+        model.addAttribute("activeModule", "roles");
+        model.addAttribute("role", new Role());
+        return "role-form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid role Id:" + id));
+        model.addAttribute("pageTitle", "Edit Role");
+        model.addAttribute("activeModule", "roles");
+        model.addAttribute("role", role);
+        return "role-form";
+    }
+
+    @PostMapping("/save")
+    public String save(@Valid @ModelAttribute Role role, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("pageTitle", role.getId() == null ? "Create Role" : "Edit Role");
+            model.addAttribute("activeModule", "roles");
+            return "role-form";
+        }
+        roleRepository.save(role);
+        redirectAttributes.addFlashAttribute("successMessage", "Role saved successfully!");
+        return "redirect:/roles";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        roleRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("successMessage", "Role deleted successfully!");
+        return "redirect:/roles";
     }
 }

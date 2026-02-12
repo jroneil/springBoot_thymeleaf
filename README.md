@@ -22,6 +22,9 @@ A modern, high-performance CRUD implementation showcasing **Thymeleaf Fragments*
 - **H2 Persistence**: Fully functional CRUD with an in-memory H2 database.
 - **Robust Validation**: Server-side Bean Validation with real-time error feedback in the UI.
 - **Responsive**: Mobile-first design that adapts gracefully to all screen sizes.
+- **Dual Listbox UX**: Custom vanilla JS component for intuitive role assignment.
+- **Dirty State Tracking**: UX enhancement to warn users of unsaved changes.
+- **PRG Pattern**:  Implements Post/Redirect/Get for idempotent form submissions.
 
 ## 🛠 Tech Stack
 - **Core**: Spring Boot 3.5.0
@@ -37,22 +40,27 @@ A modern, high-performance CRUD implementation showcasing **Thymeleaf Fragments*
 |-----|-------|-------------|
 | **Home** | `/` | Dashboard view with user profile and activity feed. |
 | **Roles** | `/roles` | Complete CRUD interface for role management. |
+| **Assign Roles** | `/users/roles` | Drag-and-drop style interface with dirty state tracking. |
 | **About** | `/about` | Project details and architectural overview. |
 
 ## 📂 Project Architecture
 
 ### Logic layer
 - `RoleController` — Handles CRUD operations and validation.
+- `UserRoleController` — Manages complex many-to-many role assignments.
+- `UserService` — Orchestrates user and role business logic.
 - `HomeController` — Serves dashboard data.
 - `AboutController` — Serves static informational content.
-- `DataInitializer` — Seeds the database with default roles on boot.
+- `DataInitializer` — Seeds users (`alice`, `bob`) and roles on boot.
 
 ### Data Layer
 - `Role` — JPA Entity with `@NotBlank` and unique constraint validation.
-- `RoleRepository` — Extends `JpaRepository` for effortless persistence.
+- `User` — JPA Entity with `@ManyToMany` relationship to roles.
+- `RoleRepository` / `UserRepository` — Data access interfaces.
 
 ### Interface Layer
 - `layout.html` — The master shell. Owns the `<head>`, CSS, and overall structure.
+- `users-roles.html` — Dual listbox interface for assigning relationships.
 - `header.html` — Glassmorphic navigation bar with SVG icons.
 - `role-form.html` — Reusable form for both creating and editing records.
 

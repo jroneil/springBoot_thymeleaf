@@ -1,0 +1,89 @@
+/* ========================================
+   Dual Listbox & Selection
+   ======================================== */
+select[multiple] {
+    height: auto;
+    min-height: 300px;
+    overflow-y: auto;
+}
+
+select[multiple] option {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-glass-border);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
+select[multiple] option:last-child {
+    border-bottom: none;
+}
+
+select[multiple] option:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+select[multiple] option:checked {
+    background-color: var(--color-primary);
+    /* Fallback */
+    background: linear-gradient(135deg, var(--color-primary), #818cf8);
+    color: white;
+}
+
+/* Scrollbar refinement for the lists */
+select[multiple]::-webkit-scrollbar {
+    width: 8px;
+}
+
+select[multiple]::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+select[multiple]::-webkit-scrollbar-thumb {
+    background: var(--color-surface-hover);
+    border-radius: 4px;
+}
+
+select[multiple]::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+}
+
+/* Dirty State Badge */
+.dirty-badge {
+    padding: 4px 8px;
+    border: 1px solid #d97706;
+    /* Amber-600 */
+    background: rgba(251, 191, 36, 0.1);
+    /* Amber-400 with opacity */
+    color: #fbbf24;
+    /* Amber-400 */
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Disabled button state */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}

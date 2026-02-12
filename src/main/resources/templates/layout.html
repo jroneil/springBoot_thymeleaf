@@ -13,7 +13,7 @@
         Accepts: content (fragment), pageTitle (String)
         Returns: full page including head, header, footer
     -->
-    <th:block th:fragment="layout(content, pageTitle)">
+    <th:block th:fragment="layout(content, pageTitle, infoContent, showInfoPanel)">
         <!DOCTYPE html>
         <html>
 
@@ -22,6 +22,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title th:text="${pageTitle} + ' | CRUD Demo'">CRUD Demo</title>
             <link rel="stylesheet" th:href="@{/css/app.css}">
+            <link rel="stylesheet" th:href="@{/css/dual-list.css}">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link
@@ -35,25 +36,47 @@
                 <!-- Header -->
                 <header th:replace="~{fragments/header :: header}"></header>
 
-                <!-- Main Content -->
-                <main class="flex-grow container mx-auto px-4 py-8">
-                    <h1 class="text-3xl font-bold mb-8 text-white border-b border-gray-800 pb-4" th:text="${pageTitle}">
-                        Page Title</h1>
+                <!-- Page Layout -->
+                <div class="page-layout container mx-auto px-4 py-8 flex-grow">
+                    <main class="main-content">
+                        <h1 class="text-3xl font-bold mb-8 text-white border-b border-gray-800 pb-4"
+                            th:text="${pageTitle}">
+                            Page Title</h1>
 
-                    <!-- Success Message -->
-                    <div th:if="${successMessage}"
-                        class="bg-green-900/50 border border-green-500 text-green-200 px-4 py-3 rounded-lg relative mb-6"
-                        role="alert">
-                        <span th:text="${successMessage}">Success!</span>
-                    </div>
+                        <!-- Success Message -->
+                        <div th:if="${successMessage}"
+                            class="bg-green-900/50 border border-green-500 text-green-200 px-4 py-3 rounded-lg relative mb-6"
+                            role="alert">
+                            <span th:text="${successMessage}">Success!</span>
+                        </div>
 
-                    <!-- Inject Content -->
-                    <div th:replace="${content}"></div>
-                </main>
+                        <!-- Inject Content -->
+                        <div th:replace="${content}"></div>
+                    </main>
+
+                    <!-- Info Panel (Right) -->
+                    <aside class="info-panel" th:if="${showInfoPanel != false}">
+                        <div class="info-card">
+                            <div th:insert="${infoContent} ?: ~{::defaultInfo}"></div>
+                        </div>
+                    </aside>
+                </div>
 
                 <!-- Footer -->
                 <footer th:replace="~{fragments/footer :: footer}"></footer>
             </div>
+
+            <!-- Default Info Fragment -->
+            <th:block th:fragment="defaultInfo">
+                <h3 class="text-lg font-semibold text-gray-200 mb-3">Application Demo</h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    This application demonstrates form handling, validation, PRG pattern, and server-side rendering with
+                    Spring Boot + Thymeleaf.
+                </p>
+                <div class="mt-4 pt-4 border-t border-gray-700/50">
+                    <p class="text-xs text-gray-500 italic">Built with Spring Boot 3 & UI/UX Pro Max styles.</p>
+                </div>
+            </th:block>
         </body>
 
         </html>

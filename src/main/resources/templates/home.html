@@ -3,7 +3,20 @@
 
 <body>
 
-    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+    <div th:replace="~{layout :: layout(
+        content=~{::content}, 
+        pageTitle=${pageTitle},
+        infoContent=~{::pageInfo},
+        showInfoPanel=true
+    )}">
+        <div th:fragment="pageInfo">
+            <h3 class="text-lg font-semibold text-gray-200 mb-3">Dashboard Overview</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">
+                Welcome to the CRUD Demo dashboard. This view shows your profile information and recent system
+                activities.
+            </p>
+        </div>
+
         <div th:fragment="content" class="space-y-6">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -3,7 +3,40 @@
 
 <body>
 
-    <div th:replace="~{layout :: layout(~{::content}, 'Roles')}">
+    <div th:replace="~{layout :: layout(
+        content=~{::content}, 
+        pageTitle='Roles',
+        infoContent=~{::pageInfo},
+        showInfoPanel=true
+    )}">
+        <!-- Custom Info for this page -->
+        <div th:fragment="pageInfo">
+            <h3 class="text-lg font-semibold text-blue-400 mb-3">Role Management</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                This page demonstrates a complete CRUD interface for managing system roles.
+            </p>
+            <ul class="space-y-2 text-xs text-gray-500">
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Server-side validation
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    PRG Pattern (Post-Redirect-Get)
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Flash messages for feedback
+                </li>
+            </ul>
+        </div>
+
         <div th:fragment="content">
 
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-8">

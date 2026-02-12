@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <div th:replace="~{layout :: layout(
+        content=~{::content}, 
+        pageTitle='Assign Roles',
+        infoContent=~{::pageInfo},
+        showInfoPanel=true
+    )}">
+        <div th:fragment="pageInfo">
+            <h3 class="text-lg font-semibold text-gray-200 mb-3">Role Assignment</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-4">
+                This interface allows you to manage many-to-many relationships between users and roles using a dual
+                listbox.
+            </p>
+            <div class="p-3 bg-amber-900/20 border border-amber-800/50 rounded-lg">
+                <p class="text-xs text-amber-500 italic">
+                    Unsaved changes are tracked. Switch users to discard changes or click Save to persist.
+                </p>
+            </div>
+        </div>
+
+        <div th:fragment="content">
+
+            <div class="max-w-4xl mx-auto bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-200">Assign Roles to User</h2>
+                        <p class="text-sm text-gray-400 mt-1">Select a user and manage their roles</p>
+                    </div>
+                </div>
+
+                <!-- Global Error Banner -->
+                <div th:if="${#fields.hasErrors('${userRoleForm.*}')}"
+                    class="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg relative mb-6"
+                    role="alert">
+                    <strong class="font-bold">Please fix the errors below.</strong>
+                </div>
+
+                <form th:action="@{/users/roles/save}" th:object="${userRoleForm}" method="post" id="roleForm"
+                    class="space-y-6">
+
+                    <!-- User Selection -->
+                    <div>
+                        <label for="userId" class="block text-sm font-medium text-gray-400 mb-2">Select User</label>
+                        <select th:field="*{userId}" id="userId"
+                            onchange="window.location.href='/users/roles?userId=' + this.value"
+                            class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer hover:border-blue-500/50"
+                            th:classappend="${#fields.hasErrors('userId')} ? 'border-red-500 ring-1 ring-red-500'">
+                            <option value="" disabled selected>-- Choose a User --</option>
+                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"
+                                th:selected="${user.id == userId}"></option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"
+                            class="mt-2 text-sm text-red-500 italic field-error"></p>
+                    </div>
+
+                    <!-- Dual Listbox -->
+                    <div th:if="${selectedUser != null}"
+                        class="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-4 items-center">
+
+                        <!-- Available Roles -->
+                        <div class="flex flex-col h-full">
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Available Roles</label>
+                            <select id="availableRoles" multiple size="10"
+                                class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex-grow font-mono text-sm">
+                                <option th:each="role : ${availableRoles}" th:value="${role.id}"
+                                    th:text="${role.name + ' (' + role.code + ')'}" th:title="${role.description}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex md:flex-col gap-2 justify-center">
+                            <button type="button" onclick="moveSelected('availableRoles', 'assignedRoles')"
+                                class="btn btn-sm bg-gray-700 hover:bg-gray-600 border border-gray-600 text-gray-200"
+                                title="Add Selected">
+                                Add &rarr;
+                            </button>
+                            <button type="button" onclick="moveSelected('assignedRoles', 'availableRoles')"
+                                class="btn btn-sm bg-gray-700 hover:bg-gray-600 border border-gray-600 text-gray-200"
+                                title="Remove Selected">
+                                &larr; Remove
+                            </button>
+                        </div>
+
+                        <!-- Assigned Roles -->
+                        <div class="flex flex-col h-full">
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Assigned Roles</label>
+                            <select th:field="*{assignedRoleIds}" id="assignedRoles" multiple size="10"
+                                class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex-grow font-mono text-sm"
+                                th:classappend="${#fields.hasErrors('assignedRoleIds')} ? 'border-red-500 ring-1 ring-red-500'">
+                                <option th:each="role : ${assignedRoles}" th:value="${role.id}"
+                                    th:text="${role.name + ' (' + role.code + ')'}" th:title="${role.description}">
+                                </option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('assignedRoleIds')}" th:errors="*{assignedRoleIds}"
+                                class="mt-2 text-sm text-red-500 italic field-error"></p>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div th:if="${selectedUser != null}"
+                        class="flex items-center justify-between pt-6 border-t border-gray-700 mt-2">
+                        <!-- Clear Form (Left) -->
+                        <form th:action="@{/users/roles/clear}" method="post"
+                            onsubmit="return confirm('Are you sure you want to clear ALL roles for this user?');"
+                            style="display:inline;">
+                            <input type="hidden" name="userId" th:value="${selectedUser.id}" />
+                            <button type="submit"
+                                class="btn btn-danger btn-sm bg-red-900/30 hover:bg-red-900/50 border border-red-800 text-red-300">
+                                Clear All Roles
+                            </button>
+                        </form>
+
+                        <!-- Save Form (Right) -->
+                        <div class="flex items-center space-x-3">
+                            <span id="dirtyBadge" class="dirty-badge" style="display:none;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                Unsaved changes
+                            </span>
+                            <a th:href="@{/}" class="text-gray-400 hover:text-gray-200 transition-colors py-2">
+                                Cancel
+                            </a>
+                            <button type="submit" id="saveBtn" class="btn btn-primary px-8"
+                                onclick="selectAllAssigned()" disabled>
+                                Save Assignments
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Vanilla JS for Listbox Logic & Dirty State -->
+            <script>
+                let isDirty = false;
+                const saveBtn = document.getElementById('saveBtn');
+                const dirtyBadge = document.getElementById('dirtyBadge');
+                const userIdSelect = document.getElementById('userId');
+
+                function setDirty(dirty) {
+                    isDirty = dirty;
+                    if (saveBtn) saveBtn.disabled = !dirty;
+                    if (dirtyBadge) dirtyBadge.style.display = dirty ? 'inline-flex' : 'none';
+                }
+
+                function moveSelected(sourceId, targetId) {
+                    const source = document.getElementById(sourceId);
+                    const target = document.getElementById(targetId);
+                    const selectedOptions = Array.from(source.selectedOptions);
+
+                    if (selectedOptions.length > 0) {
+                        setDirty(true);
+
+                        selectedOptions.forEach(option => {
+                            target.appendChild(option);
+                        });
+
+                        // Sort target options by text for better UX
+                        const options = Array.from(target.options);
+                        options.sort((a, b) => a.text.localeCompare(b.text));
+                        target.innerHTML = '';
+                        options.forEach(option => target.appendChild(option));
+                    }
+                }
+
+                function selectAllAssigned() {
+                    const assignedSelect = document.getElementById('assignedRoles');
+                    if (assignedSelect) {
+                        Array.from(assignedSelect.options).forEach(option => option.selected = true);
+                    }
+                }
+
+                // Initialize dirty state
+                document.addEventListener('DOMContentLoaded', () => {
+                    setDirty(false);
+                });
+
+                // Handle User Dropdown Change with Confirmation
+                if (userIdSelect) {
+                    userIdSelect.removeAttribute('onchange'); // Remove inline handler to use listener
+
+                    // We need to store previous value to revert if cancelled
+                    let previousValue = userIdSelect.value;
+                    userIdSelect.addEventListener('focus', function () {
+                        previousValue = this.value;
+                    });
+
+                    userIdSelect.addEventListener('change', function (e) {
+                        const newValue = this.value;
+                        if (isDirty) {
+                            if (confirm("You have unsaved changes. Are you sure you want to discard them?")) {
+                                window.location.href = '/users/roles?userId=' + newValue;
+                            } else {
+                                // Revert selection
+                                this.value = previousValue;
+                            }
+                        } else {
+                            window.location.href = '/users/roles?userId=' + newValue;
+                        }
+                    });
+                }
+
+                // Ensure form submit also calls selectAll (double safety)
+                document.getElementById('roleForm').addEventListener('submit', function () {
+                    selectAllAssigned();
+                });
+            </script>
+        </div>
+    </div>
+
+</body>
+
+</html>

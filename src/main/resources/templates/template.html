@@ -6,7 +6,17 @@
         PAGE TEMPLATE
         Use this as a starting point for new pages.
     -->
-    <div th:replace="~{layout :: layout(~{::content}, ${pageTitle})}">
+    <div th:replace="~{layout :: layout(
+        content=~{::content}, 
+        pageTitle=${pageTitle},
+        infoContent=~{::pageInfo},
+        showInfoPanel=true
+    )}">
+        <div th:fragment="pageInfo">
+            <h3 class="text-lg font-semibold text-gray-200 mb-3">Sub-title</h3>
+            <p class="text-sm text-gray-400">Contextual help or information for this page.</p>
+        </div>
+
         <div th:fragment="content" class="space-y-6">
 
             <section class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">

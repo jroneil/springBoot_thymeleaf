@@ -40,8 +40,17 @@ A modern, high-performance CRUD implementation showcasing **Thymeleaf Fragments*
 |-----|-------|-------------|
 | **Home** | `/` | Dashboard view with user profile and activity feed. |
 | **Roles** | `/roles` | Complete CRUD interface for role management. |
-| **Assign Roles** | `/users/roles` | Drag-and-drop style interface with dirty state tracking. |
+| **Users** | `/users` | **NEW!** Searchable directory with pagination and filtering. |
 | **About** | `/about` | Project details and architectural overview. |
+
+## 🔍 User Management Flow (Refactored)
+
+The user management system has been streamlined to use the **Users Directory** as the central entry point.
+
+-   **Searchable List**: Filter users by `username`, `displayName`, or `email` with case-insensitive, partial matching.
+-   **Pagination**: Server-side pagination and sorting (`username` ASC by default).
+-   **Unified Management**: The "Manage" action leads to a comprehensive form for profile updates and role assignments (Dual Listbox).
+-   **Error Handling**: Built-in validation check if a user ID is invalid, with automatic redirection and flash messaging.
 
 ## 📂 Project Architecture
 

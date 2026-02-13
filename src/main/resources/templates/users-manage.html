@@ -28,6 +28,18 @@
 
         <div th:fragment="content">
 
+            <!-- Back to Search Action -->
+            <div class="mb-6">
+                <a th:href="@{/users}" class="btn btn-sm"
+                    style="background: rgba(255,255,255,0.05); border: 1px solid var(--color-glass-border); color: var(--color-text-muted); display: inline-flex; align-items: center; padding: 0.6rem 1.25rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Back to User Search
+                </a>
+            </div>
+
             <div class="max-w-4xl mx-auto bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
 
                 <!-- Global Error Banner -->

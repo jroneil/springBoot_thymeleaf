@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserRowVM;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,5 +80,24 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public Page<UserRowVM> searchUsers(String query, Pageable pageable) {
+        Page<User> users;
+        if (query == null || query.trim().isEmpty()) {
+            users = userRepository.findAll(pageable);
+        } else {
+            users = userRepository.search(query.trim(), pageable);
+        }
+        return users.map(this::toUserRowVM);
+    }
+
+    private UserRowVM toUserRowVM(User user) {
+        return new UserRowVM(
+                user.getId(),
+                user.getUsername(),
+                user.getDisplayName(),
+                user.getEmail(),
+                user.getRoles().size());
     }
 }

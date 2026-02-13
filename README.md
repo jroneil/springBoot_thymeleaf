@@ -18,7 +18,7 @@ A modern, high-performance CRUD implementation showcasing **Thymeleaf Fragments*
 
 ### User Management (Profile + Role Assignment) (**Dynamic CRUD**)
 *A unified form for editing user details and assigning roles using a dual listbox, featuring server-side validation, DTO binding, dirty-state detection, and PRG pattern.*
-![Users Management](screenshots/users-details.png)
+![Users Management](screenshots/users-detail.png)
 
 ### About Page (**Static**)
 *A simple informational page showcasing how static content fits into the fragment-based layout.*

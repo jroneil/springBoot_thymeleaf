@@ -12,6 +12,14 @@ A modern, high-performance CRUD implementation showcasing **Thymeleaf Fragments*
 *A fully functional CRUD interface backed by an H2 database, featuring validation and JPA persistence.*
 ![Roles Management](screenshots/roles.png)
 
+### Users Directory (Search & Navigation) (**Dynamic CRUD**)
+*A searchable, paginated user directory with case-insensitive filtering and direct navigation to profile management.*
+![Users Management](screenshots/users-list.png)
+
+### User Management (Profile + Role Assignment) (**Dynamic CRUD**)
+*A unified form for editing user details and assigning roles using a dual listbox, featuring server-side validation, DTO binding, dirty-state detection, and PRG pattern.*
+![Users Management](screenshots/users-manage.png)
+
 ### About Page (**Static**)
 *A simple informational page showcasing how static content fits into the fragment-based layout.*
 ![About Page](screenshots/about.png)

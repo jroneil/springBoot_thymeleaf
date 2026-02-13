@@ -24,6 +24,9 @@ public class Role {
 
     private String description;
 
+    @ManyToMany(mappedBy = "roles")
+    private java.util.Set<User> users = new java.util.HashSet<>();
+
     public Role() {
     }
 
@@ -64,5 +67,13 @@ public class Role {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public java.util.Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(java.util.Set<User> users) {
+        this.users = users;
     }
 }

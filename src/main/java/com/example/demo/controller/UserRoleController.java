@@ -29,7 +29,7 @@ public class UserRoleController {
     @GetMapping
     public String assignRoles(@RequestParam(required = false) Long userId, Model model) {
         model.addAttribute("pageTitle", "Assign Roles to User");
-        model.addAttribute("activeModule", "assign-roles");
+        model.addAttribute("activeModule", "users");
 
         List<User> users = userService.listUsers();
         model.addAttribute("users", users);
@@ -83,7 +83,7 @@ public class UserRoleController {
         if (result.hasErrors()) {
             // Re-populate model data for the view
             model.addAttribute("pageTitle", "Assign Roles to User");
-            model.addAttribute("activeModule", "assign-roles");
+            model.addAttribute("activeModule", "users");
 
             // Reload users
             model.addAttribute("users", userService.listUsers());

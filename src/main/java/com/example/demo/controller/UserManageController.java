@@ -45,7 +45,7 @@ public class UserManageController {
         }
 
         model.addAttribute("selectedUser", selectedUser);
-        model.addAttribute("activeModule", "manage-users");
+        model.addAttribute("activeModule", "users");
 
         if (selectedUser != null) {
             UserManageForm form = new UserManageForm();
@@ -78,7 +78,7 @@ public class UserManageController {
         if (result.hasErrors()) {
             model.addAttribute("users", userService.listUsers());
             model.addAttribute("selectedUser", userService.getUser(form.getUserId()));
-            model.addAttribute("activeModule", "manage-users");
+            model.addAttribute("activeModule", "users");
             populateRolesModel(form.getAssignedRoleIds(), model);
             return "users-manage";
         }

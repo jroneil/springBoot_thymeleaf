@@ -27,13 +27,19 @@ public class UserManageController {
     }
 
     @GetMapping
-    public String manageUser(@RequestParam(required = false) Long userId, Model model) {
+    public String manageUser(@RequestParam(required = false) Long userId, Model model,
+            RedirectAttributes redirectAttributes) {
         List<User> users = userService.listUsers();
         model.addAttribute("users", users);
 
         User selectedUser = null;
         if (userId != null) {
-            selectedUser = userService.getUser(userId);
+            try {
+                selectedUser = userService.getUser(userId);
+            } catch (IllegalArgumentException e) {
+                redirectAttributes.addFlashAttribute("flashError", "User not found");
+                return "redirect:/users";
+            }
         } else if (!users.isEmpty()) {
             selectedUser = users.get(0);
         }
